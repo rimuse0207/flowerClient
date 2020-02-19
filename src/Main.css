@@ -1,0 +1,11 @@
+body {
+  background-color: #00fa9a;
+}
+
+.wrap {
+  display: flex;
+  padding-left: 90px;
+  padding-top: 100px;
+  height: 100%;
+  flex-wrap: wrap;
+}
