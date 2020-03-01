@@ -16,24 +16,32 @@ export default class InsideFlower extends React.Component {
     };
   }
   componentDidMount() {
-    this.setState({
-      prepare: true
-    });
-    var cut = this.props.flower.rtnStreFileNm.split("|");
-    var imgUrl = `http://www.nongsaro.go.kr/cms_contents/301/${cut[0]}`;
-    this.setState({
-      imgUrl
-    });
+    // this.setState({
+    //   prepare: true
+    // });
+    if (this.props.flower) {
+      this.setState({
+        prepare: true
+      });
+    }
   }
 
-  openModal = async ip => {
-    var datas = await Axios.get(`http://localhost:3001/users/qwe`);
+  dataOpen = async id => {
+    const data2 = await Axios.get(`http://localhost:3001/users/qqq`);
+    if (data2.data.cntntsNo === id) {
+      this.setState({
+        datas: data2,
+        visible: true,
+        ip: id
+      });
+    } else {
+      this.dataOpen(id);
+    }
+  };
+  openModal = async id => {
+    await Axios.post(`http://localhost:3001/users/qwe`, { id });
 
-    this.setState({
-      datas: datas,
-      visible: true,
-      ip: ip
-    });
+    this.dataOpen(id);
   };
   closeModal = async e => {
     this.setState({
@@ -48,7 +56,7 @@ export default class InsideFlower extends React.Component {
           <div className="box_modal">
             <img
               className="Imgae"
-              src={this.state.imgUrl}
+              src={this.props.url}
               width="280"
               height="150"
               alt={this.props.flower.cntntsSj}
@@ -56,8 +64,8 @@ export default class InsideFlower extends React.Component {
             ></img>
             <Modal
               visible={this.state.visible}
-              width="400"
-              height="300"
+              width="800"
+              height="600"
               effect="fadeInDown"
               onClickAway={e => this.closeModal(e)}
             >
